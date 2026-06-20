@@ -2,14 +2,34 @@ classDiagram
     %% Replace the placeholders below with your actual classes, attributes, methods, and relationships.
     %% Keep this file updated so it matches your final implementation.
 
-    class ClassName {
+    class CareTasks {
         +type attribute
         +method() returnType
     }
 
-    class AnotherClass {
+    class DailyPlan {
         +type attribute
         +method() returnType
+    }
+    
+    class Owner {
+        +String name
+        +String constraints
+        +int dropOffTime
+        +int pickUpTime
+        +get_constraints() String
+        +get_pickUpTime() int
+        +get_dropOffTime() int
+        +set_dropOffTime()
+        +set_pickUpTime()
+        +get_name() String
+    }
+
+    class Pet {
+        +String petName
+        +int petAge
+        +get_petAge() int
+        +get_petName() String
     }
 
     ClassName --> AnotherClass : relationship
