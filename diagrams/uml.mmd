@@ -3,25 +3,41 @@ classDiagram
     %% Keep this file updated so it matches your final implementation.
 
     class CareTasks {
-        +type attribute
-        +method() returnType
+        +String taskName
+        +int duration
+        +int priority
+        +Boolean trackTask 
+        +get_taskName() String
+        +get_duration() int
+        +get_priority() int
+        +get_trackTask() Boolean
+        +set_priority() void
+        +set_duration() void
+        +set_taskName() void
+        +set_trackTask() void
     }
 
     class DailyPlan {
-        +type attribute
-        +method() returnType
+        +List~Caretask~ taskList
+        +String date
+        +int totalTime
+        +get_taskList() List~CareTask~
+        +get_date() String
+        +get_totalTime() int
+        +display_plan() String
+        +explain_task() String
     }
-    
+
     class Owner {
         +String name
         +String constraints
-        +int dropOffTime
+        +int dropOffTime 
         +int pickUpTime
         +get_constraints() String
         +get_pickUpTime() int
         +get_dropOffTime() int
-        +set_dropOffTime()
-        +set_pickUpTime()
+        +set_dropOffTime() void
+        +set_pickUpTime() void
         +get_name() String
     }
 
@@ -32,4 +48,14 @@ classDiagram
         +get_petName() String
     }
 
-    ClassName --> AnotherClass : relationship
+    class Scheduler {
+        +List~CareTask~ avaliableTasks
+        +Owner owner
+        +make_dailyPlan() DailyPlan
+        +filter_tasks() List~CareTask~
+    }
+
+    Pet --> Owner : depends on
+    Scheduler --> Owner : uses
+    Scheduler ..> DailyPlan : creates
+    DailyPlan "1" --> "many" CareTask : has many tasks
