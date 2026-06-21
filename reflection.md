@@ -4,10 +4,14 @@
 
 **a. Initial design**
 
+My initial UML design was Owner, DailyPlan, and Tasks. I knew I needed to have a lot of tasks that would initialize the tasks in the systems. Then I talked with my AI and realized I need the Scheduler and Pet to reduce the amount of syntax.
+
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
 
 **b. Design changes**
+
+Some design changes were the filtering tasks had to be implemented so that it would calculate the time based on when the owner dropped off the pet and was going to pick them up. I also needed to add "add task" to the code because without it, the scheduler wouldn't be able to choose the task. 
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.

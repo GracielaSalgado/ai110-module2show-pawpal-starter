@@ -6,41 +6,48 @@ class CareTask:
         self.trackTask = False
 
     def get_taskName(self):
-        pass
+        return self.taskName
 
     def get_duration(self):
-        pass
+        return self.duration
 
     def get_priority(self):
-        pass
+        return self.priority
 
     def get_trackTask(self):
-        pass
+        return self.trackTask
 
     def set_taskName(self, taskName):
-        pass
+        self.taskName = taskName
 
     def set_duration(self, duration):
-        pass
+        self.duration = duration
 
     def set_priority(self, priority):
-        pass
+        self.priority = priority
 
     def set_trackTask(self, trackTask):
-        pass
+        self.trackTask = trackTask
+
+    def mark_complete(self):
+        """Marks the task as complete by setting trackTask to True"""
+        self.trackTask = True
 
 
 class Pet:
     def __init__(self, petName, petAge):
         self.petName = petName
         self.petAge = petAge
+        self.taskList = []
 
     def get_petName(self):
-        pass
+        return self.petName
 
     def get_petAge(self):
-        pass
+        return self.petAge
 
+    def add_task(self, task):
+        self.taskList.append(task)
 
 class Owner:
     def __init__(self, name, constraints, dropOffTime, pickUpTime, pet):
@@ -51,22 +58,22 @@ class Owner:
         self.pet = pet
 
     def get_name(self):
-        pass
+        return self.name
 
     def get_constraints(self):
-        pass
+        return self.constraints
 
     def get_dropOffTime(self):
-        pass
+        return self.dropOffTime
 
     def get_pickUpTime(self):
-        pass
+        return self.pickUpTime
 
     def set_dropOffTime(self, dropOffTime):
-        pass
+        self.dropOffTime = dropOffTime
 
     def set_pickUpTime(self, pickUpTime):
-        pass
+        self.pickUpTime = pickUpTime
 
 
 class DailyPlan:
@@ -76,19 +83,27 @@ class DailyPlan:
         self.totalTime = 0
 
     def get_date(self):
-        pass
+        return self.date
 
     def get_taskList(self):
-        pass
+        return self.taskList
 
     def get_totalTime(self):
-        pass
+        return self.totalTime
 
     def display_plan(self):
-        pass
+        result = ""
+        for plan in self.taskList:
+            result += "\n- " + plan.taskName + " | priority: " + str(plan.priority)
+        return result
 
     def explain_task(self):
-        pass
+        result = "Scheduled " + str(len(self.taskList)) + " tasks totaling " + str(self.totalTime) + " minutes."
+        return result
+
+    def add_task(self, task):
+        self.taskList.append(task)
+        self.totalTime += task.duration
 
 
 class Scheduler:
@@ -97,7 +112,21 @@ class Scheduler:
         self.availableTasks = availableTasks
 
     def make_dailyPlan(self):
-        pass
+        plan = DailyPlan("2026-06-20")
+        tasks = self.filter_tasks() 
+        for task in tasks:
+            plan.add_task(task)
+        return plan
 
+    """returns only the tasks that fit within the owner's avaliablity"""
     def filter_tasks(self):
-        pass
+        available_time = self.owner.pickUpTime - self.owner.dropOffTime
+        filtered = []
+        time_used = 0
+
+        for task in self.availableTasks:
+            if time_used + task.duration <= available_time:
+                filtered.append(task)
+                time_used += task.duration
+
+        return filtered

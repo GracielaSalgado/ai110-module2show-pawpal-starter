@@ -1,4 +1,5 @@
 import streamlit as st
+from pawPal import CareTask, Owner, Scheduler
 
 st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
 
@@ -59,7 +60,7 @@ with col3:
 
 if st.button("Add task"):
     st.session_state.tasks.append(
-        {"title": task_title, "duration_minutes": int(duration), "priority": priority}
+        {"title": task_title, "duration_minutes ": int(duration), "priority ": priority}
     )
 
 if st.session_state.tasks:
@@ -74,15 +75,20 @@ st.subheader("Build Schedule")
 st.caption("This button should call your scheduling logic once you implement it.")
 
 if st.button("Generate schedule"):
-    st.warning(
-        "Not implemented yet. Next step: create your scheduling logic (classes/functions) and call it here."
-    )
-    st.markdown(
-        """
-Suggested approach:
-1. Design your UML (draft).
-2. Create class stubs (no logic).
-3. Implement scheduling behavior.
-4. Connect your scheduler here and display results.
-"""
-    )
+    # Step 1: create owner
+    owner = Owner(owner_name, "", 0, 480, None)
+    
+    # Step 2: create care tasks from session state
+    care_tasks = []
+    for task in st.session_state.tasks:
+        t = CareTask(task["title"], task["duration_minutes"], task["priority"])
+        care_tasks.append(t)
+    
+    # Step 3: create scheduler and generate plan
+    scheduler = Scheduler(owner, care_tasks)
+    plan = scheduler.make_dailyPlan()
+    
+    # Step 4: display
+    st.write(plan.display_plan())
+    st.write(plan.explain_task())
+
