@@ -44,14 +44,14 @@ pip install -r requirements.txt
 
 ## 🖥️ Sample Output
 
-Paste a sample of your app's CLI or Streamlit output here so a reader can see what a generated plan looks like:
-
 ```
-# e.g.:
-# Daily plan for Biscuit (Golden Retriever):
-#   08:00 — Morning walk (30 min) [priority: high]
-#   09:00 — Feeding (10 min) [priority: high]
-#   ...
+Today's Schedule:
+
+- Morning Walk | priority: 1
+- Bath | priority: 2
+- Snack | priority: 3
+Scheduled 3 tasks totaling 60 minutes.
+No conflicts detected.
 ```
 
 ## 🧪 Testing PawPal+
@@ -59,36 +59,32 @@ Paste a sample of your app's CLI or Streamlit output here so a reader can see wh
 ```bash
 # Run the full test suite:
 pytest
-
-# Run with coverage:
-pytest --cov
 ```
 
 Sample test output:
 
 ```
-# Paste your pytest output here
+platform darwin -- Python 3.13.0, pytest-9.1.1, pluggy-1.6.0
+collected 5 items
+
+test_pawpal.py .....                                    [100%]
+
+5 passed in 0.01s
 ```
 
 ## 📐 Smarter Scheduling
 
-> Fill in once you've implemented scheduling logic.
-
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `filter_tasks()` | Sorts by priority before scheduling |
+| Filtering | `filter_tasks()` | Skips tasks if owner's time runs out |
+| Conflict handling | `detect_conflicts()` | Warns if total task time exceeds available time |
+| Recurring tasks | not yet implemented | |
 
 ## 📸 Demo Walkthrough
 
-Describe your app in numbered steps so a reader can follow along without watching a video:
-
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
-
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+1. Enter your name and pet name in the input fields
+2. Add tasks using the Task form (title, duration, priority)
+3. Click "Generate schedule" to run the scheduler
+4. View the scheduled tasks and explanation in the output
+5. Tasks are automatically sorted by priority and filtered to fit your available time

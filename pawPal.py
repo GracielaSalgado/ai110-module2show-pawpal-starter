@@ -124,9 +124,18 @@ class Scheduler:
         filtered = []
         time_used = 0
 
+        sorted_tasks = sorted(self.availableTasks, key=lambda task: task.priority)
         for task in self.availableTasks:
             if time_used + task.duration <= available_time:
                 filtered.append(task)
                 time_used += task.duration
 
         return filtered
+
+    def detect_conflicts(self):
+        available_time = self.owner.pickUpTime - self.owner.dropOffTime
+        total = sum(task.duration for task in self.availableTasks)
+        if total > available_time:
+            return f"Warning: tasks total {total} min but only {available_time} min available."
+        return None
+
