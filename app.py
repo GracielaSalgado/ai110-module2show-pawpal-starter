@@ -1,3 +1,4 @@
+import datetime
 import streamlit as st
 from pawPal import CareTask, Owner, Scheduler
 
@@ -44,6 +45,13 @@ owner_name = st.text_input("Owner name", value="Jordan")
 pet_name = st.text_input("Pet name", value="Mochi")
 species = st.selectbox("Species", ["dog", "cat", "other"])
 
+st.markdown("### Time Constraints")
+col_a, col_b = st.columns(2)
+with col_a:
+    drop_off_time = st.time_input("Drop-off time", value=datetime.time(8, 0))
+with col_b:
+    pick_up_time = st.time_input("Pick-up time", value=datetime.time(16, 0))
+
 st.markdown("### Tasks")
 st.caption("Add a few tasks. In your final version, these should feed into your scheduler.")
 
@@ -60,7 +68,7 @@ with col3:
 
 if st.button("Add task"):
     st.session_state.tasks.append(
-        {"title": task_title, "duration_minutes ": int(duration), "priority ": priority}
+        {"title": task_title, "duration_minutes": int(duration), "priority": priority}
     )
 
 if st.session_state.tasks:
@@ -76,8 +84,15 @@ st.caption("This button should call your scheduling logic once you implement it.
 
 if st.button("Generate schedule"):
     # Step 1: create owner
-    owner = Owner(owner_name, "", 0, 480, None)
-    
+    drop_off_minutes = drop_off_time.hour * 60 + drop_off_time.minute
+    pick_up_minutes = pick_up_time.hour * 60 + pick_up_time.minute
+
+    if pick_up_minutes <= drop_off_minutes:
+        st.error("Pick-up time must be after drop-off time.")
+        st.stop()
+
+    owner = Owner(owner_name, "", drop_off_minutes, pick_up_minutes, None)
+
     # Step 2: create care tasks from session state
     care_tasks = []
     for task in st.session_state.tasks:
